@@ -1,0 +1,15 @@
+const app = require('./../index')
+const http = require('http')
+const port = process.env.PORT 
+
+app.set('port', port)
+
+const server = http.createServer(app)
+server.listen(port)
+server.on('error', () => {
+    console.error('error try connect server in port %s', port)
+})
+server.on('listening', () => {
+    console.log('Success connect server in port %s', port)
+})
+
