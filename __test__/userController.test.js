@@ -13,4 +13,11 @@ describe('User Controller testing', () =>{
     AfterAll(async()=>{
         await moongose.connection.close()
     })
+    it("Este test registra un nuevo usuario en la base de datos",
+        async () => {const response = await request(app)
+        .post('/api/register')
+        .send({email:"",password:""})
+        expect()
+        }
+    )
 })
