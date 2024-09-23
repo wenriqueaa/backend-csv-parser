@@ -6,14 +6,27 @@ const csvToJson = require('csvtojson')
 const uploadFile = async (req, res) => {
     //variable file se guarda el archivo, que viene al upload
     const file = req.file
-    const fileName = req.file.originalname
-    console.log(file)
     try {
         //archivo no existe
         if (!file) return res.status(400).json({
             ok: false,
             msg: 'file is mandatory'
         })
+        const fileName = req.file.originalname
+        if (fileName == '') return res.status(400).json({
+            ok: false,
+            msg: 'file requiere name'
+        })
+
+        //Validar que el nombre tiene extension
+        const fileExtension = '.csv'
+        const fileExtensionLength = fileExtension.length
+        const fileNameLength = fileName.length
+        // if(fileNameLength == 0 || fileName.indexOf(fileExtension)==fileNameLength-fileExtensionLength)
+        //     return res.status(400).json({
+        //         ok: false,
+        //         msg: `only extension ${fileExtension} avalilable`
+        //     })
         //guardar el archivo en un objeto json
         const jsonArray = await csvToJson().fromString(file.buffer.toString('utf-8'))
         //
@@ -48,7 +61,7 @@ const uploadFile = async (req, res) => {
 //getFileById
 //getAllFiles
 //deleteFileById
-/*
+/*-
 const getFileById = async (req, res) => {
     const { id } = req.params
     try {
@@ -72,12 +85,12 @@ const getFileById = async (req, res) => {
 }
 */
 const getFileById = async(req, res) => {
-    const id = req.params.id
+    const _id = req.params.id
     try {
-        const file = await File.findById({_id: id})
+        const file = await File.findById(_id)
         if(!file) return res.status(404).json({
             ok:false,
-            msg:'Not found file'
+            msg:'Not found file '+ _id
         })       
         return res.status(200).json({
             ok:true,

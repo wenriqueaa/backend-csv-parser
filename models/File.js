@@ -7,10 +7,10 @@ const fileSchema = Schema({
         unique: true
     },
     data: {
-        type: Object,
-        required: true
+        type: Object
+        , required: true
     }
 })
 
-const Files = model('Files', fileSchema)
+const Files = model('Files', fileSchema, 'Files')
 module.exports = Files

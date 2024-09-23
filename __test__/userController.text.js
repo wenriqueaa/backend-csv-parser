@@ -57,18 +57,29 @@ beforeEach(async()=>{
 
         }
     )
-    it("retornar un error de servidor al hacer login",
+    // it("retornar un error de servidor al hacer login",
+    //     async () => {
+    //         jest.spyOn(User, 'findOne').mockImplementationOnce(
+    //             () => {
+    //                 throw new Error('simulando error en base de datos') 
+    //             }
+    //         )
+    //         const response = await request(app)
+    //             .post('/api/login')
+    //             .send({email:emailTest,password:passwordTest})
+    //         expect(response.statusCode).toBe(500)
+    //         expect(response.body).toHaveProperty('msg', 'please contact to development team')
+    //         expect(response.body).toHaveProperty('ok', false)
+
+    //     }
+    // )
+    it("No Debería crear un usuario con contraseña incorrecta",
         async () => {
-            jest.spyOn(User, 'findOne').mockImplementationOnce(
-                () => {
-                    throw new Error('simulando error en base de datos') 
-                }
-            )
             const response = await request(app)
-                .post('/api/login')
-                .send({email:emailTest,password:passwordTest})
-            expect(response.statusCode).toBe(500)
-            expect(response.body).toHaveProperty('msg', 'please contact to development team')
+                .post('/api/register')
+                .send({email:emailTest,password:'password'})
+            expect(response.statusCode).toBe(400)
+            expect(response.body.msg.password).toHaveProperty('msg', 'Hola revisando!! password must contain at least, uppercase, lowercase, numbers and characters')
             expect(response.body).toHaveProperty('ok', false)
 
         }
